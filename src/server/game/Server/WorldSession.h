@@ -720,6 +720,15 @@ class TC_GAME_API WorldSession
 
         bool IsConnectionIdle() const;
 
+        // Bot session support (PoC bootstrap)
+        bool IsBotSession() const { return m_isBotSession; }
+        void SetBotSession() { m_isBotSession = true; }
+        void SpawnBotPlayerAsync(ObjectGuid guid);
+
+        // Cleanly shuts down a bot session: logs out the player (if still attached)
+        // and clears the bot-session flag so World::UpdateSessions() will erase it.
+        void KillBotSession();
+
         // Recruit-A-Friend Handling
         uint32 GetRecruiterId() const { return recruiterId; }
         bool IsARecruiter() const { return isRecruiter; }
