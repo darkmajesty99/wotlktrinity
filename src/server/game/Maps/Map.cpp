@@ -18,6 +18,7 @@
 #include "Map.h"
 #include "Battleground.h"
 #include "CellImpl.h"
+#include "Config.h"
 #include "ChatPackets.h"
 #include "DatabaseEnv.h"
 #include "DisableMgr.h"
@@ -4332,7 +4333,9 @@ bool InstanceMap::HasPermBoundPlayers() const
 uint32 InstanceMap::GetMaxPlayers() const
 {
     MapDifficultyEntry const* mapDiff = GetMapDifficulty();
-    if (mapDiff && mapDiff->MaxPlayers)
+    if (mapDiff && mapDiff->maxPlayers && (sConfigMgr->GetBoolDefault("AutoBalance.enable", true)))
+        return (mapDiff->maxPlayers == 10 ? 30 : mapDiff->maxPlayers);
+    else
         return mapDiff->MaxPlayers;
 
     return GetEntry()->MaxPlayers;
