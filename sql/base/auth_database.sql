@@ -1602,7 +1602,15 @@ INSERT INTO `rbac_linked_permissions` VALUES
 (199,507),
 (199,525),
 (199,534),
-(199,797);
+(199,797),
+(196,1436),
+(196,1437),
+(196,1438),
+(196,1439),
+(197,1436),
+(197,1437),
+(197,1438),
+(197,1439);
 /*!40000 ALTER TABLE `rbac_linked_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2298,7 +2306,11 @@ INSERT INTO `rbac_permissions` VALUES
 (880,'Command: pdump copy'),
 (881,'Command: reload vehicle_template'),
 (884,'Command: bg start'),
-(885,'Command: bg stop');
+(885,'Command: bg stop'),
+(1436,'Command: bot spawn'),
+(1437,'Command: bot despawn'),
+(1438,'Command: bot move'),
+(1439,'Command: bot teleport');
 /*!40000 ALTER TABLE `rbac_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
