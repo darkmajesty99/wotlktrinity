@@ -128,16 +128,7 @@ public:
             handler->GetNameLink().c_str(), charName.c_str(), guid.ToString().c_str(), accountId);
 
         // Create a socket-less WorldSession for the bot.
-        WorldSession* botSession = new WorldSession(
-            accountId,
-            "bot_" + charName,  // account name – display only
-            nullptr,            // no real network socket
-            SEC_PLAYER,
-            2,                  // expansion
-            0,                  // no mute
-            DEFAULT_LOCALE,
-            0,                  // no recruiter
-            false);
+        WorldSession* botSession = new WorldSession();
 
         botSession->SetBotSession();
         botSession->SpawnBotPlayerAsync(guid);
