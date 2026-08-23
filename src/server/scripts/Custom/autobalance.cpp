@@ -123,7 +123,7 @@ int GetForcedNumPlayers(int creatureId) {
 }
 
 void getAreaLevel(Map* map, uint8 areaid, uint8& min, uint8& max) {
-    LFGDungeonEntry const* dungeon = GetLFGDungeon(map->GetId(), map->GetDifficultyNme());
+    LFGDungeonEntry const* dungeon = GetLFGDungeon(map->GetId(), map->GetDifficultyName());
 
     if (dungeon && (map->IsDungeon() || map->IsRaid()))
     {
