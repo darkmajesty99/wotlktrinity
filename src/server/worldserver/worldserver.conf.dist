@@ -4282,6 +4282,7 @@ AutoBalance.enable = 1
 #        InflectionPoint & InflectionPointHeroic are the fallback values for 5-man dungeons
 #        InflectionPointRaid10M & InflectionPointRaid10MHeroic are the fallback values for 10 man raids
 #        InflectionPointRaid25M & InflectionPointRaid25MHeroic are the fallback values for 25 man raids
+#        InflectionPointRaid30M & InflectionPointRaid30MHeroic are the fallback values for 30 man raids
 #        InflectionPointRaid & InflectionPointRaidHeroic are the fallback values for other raids (40-man, 20-man, 15-man, or custom size)
 #        The inflection points fallback to the most specific number
 #
@@ -4298,6 +4299,9 @@ AutoBalance.InflectionPointRaid10MHeroic = 0.5
 
 AutoBalance.InflectionPointRaid25M = 0.5
 AutoBalance.InflectionPointRaid25MHeroic = 0.5
+
+AutoBalance.InflectionPointRaid30M = 0.5
+AutoBalance.InflectionPointRaid30MHeroic = 0.5
 
 AutoBalance.InflectionPointRaid = 0.5
 AutoBalance.InflectionPointRaidHeroic = 0.5
@@ -4352,7 +4356,7 @@ AutoBalance.levelUseDbValuesWhenExists = 0
 AutoBalance.LevelEndGameBoost = 1
 
 #
-     AutoBalance.DungeonScaleDownXP
+#     AutoBalance.DungeonScaleDownXP
 #        Decrease individual player's amount of XP gained during a dungeon to match the
 #        amount of XP gained during a full group run. Example: In a 5-man group, you
 #        earn 1/5 of the total XP per kill, but if you solo the dungeon with
@@ -4447,4 +4451,3 @@ AutoBalance.ForcedID2  = ""
 
 AutoBalance.DisabledID = ""
 ###################################################################################################
-
