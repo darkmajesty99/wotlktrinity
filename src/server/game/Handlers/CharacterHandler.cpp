@@ -17,6 +17,7 @@
 
 #include "WorldSession.h"
 #include "ArenaTeamMgr.h"
+#include "BotMgr.h"
 #include "CalendarMgr.h"
 #include "CharacterCache.h"
 #include "CharacterPackets.h"
@@ -751,7 +752,7 @@ void WorldSession::SpawnBotPlayerAsync(ObjectGuid guid)
 
     TC_LOG_INFO("bot", "BotSession: Starting character load for guid %s (account %u).", guid.ToString().c_str(), GetAccountId());
 
-    m_playerLoading = false;
+    m_playerLoading = guid;
 
     std::shared_ptr<LoginQueryHolder> holder = std::make_shared<LoginQueryHolder>(GetAccountId(), guid);
     if (!holder->Initialize())
