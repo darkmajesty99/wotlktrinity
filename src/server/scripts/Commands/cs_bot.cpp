@@ -133,7 +133,7 @@ public:
             "bot_" + charName,  // account name – display only
             nullptr,            // no real network socket
             SEC_PLAYER,
-            EXPANSION_CATACLYSM,
+            EXPANSION_WOTLK,
             0,                  // no mute
             DEFAULT_LOCALE,
             0,                  // no recruiter
