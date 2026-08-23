@@ -23,10 +23,12 @@
 void AddSC_AutoBalance();
 void AddSolocraftScripts();
 void AddSC_skip_StarterArea();
+void AddSC_NPC_TransmogDisplayVendor();
 
 void AddCustomScripts()
 {
     AddSC_AutoBalance();
     AddSolocraftScripts();
     AddSC_skip_StarterArea();
+    AddSC_NPC_TransmogDisplayVendor();
 }
