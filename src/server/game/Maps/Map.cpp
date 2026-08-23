@@ -4334,7 +4334,7 @@ uint32 InstanceMap::GetMaxPlayers() const
 {
     MapDifficultyEntry const* mapDiff = GetMapDifficulty();
     if (mapDiff && mapDiff->MaxPlayers && (sConfigMgr->GetBoolDefault("AutoBalance.enable", true)))
-        return (mapDiff->MaxPlayers == 10 ? 30 : mapDiff->maxPlayers);
+        return (mapDiff->MaxPlayers == 10 ? 30 : mapDiff->MaxPlayers);
     else
         return mapDiff->MaxPlayers;
 
