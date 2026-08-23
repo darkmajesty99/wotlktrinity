@@ -22,9 +22,11 @@
 
 void AddSC_AutoBalance();
 void AddSolocraftScripts();
+void AddSC_skip_StarterArea();
 
 void AddCustomScripts()
 {
     AddSC_AutoBalance();
     AddSolocraftScripts();
+    AddSC_skip_StarterArea();
 }
