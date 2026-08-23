@@ -20,6 +20,7 @@
 
 #include "Common.h"
 #include "Duration.h"
+#include "DataMap.h"
 #include "EventProcessor.h"
 #include "MapDefines.h"
 #include "ModelIgnoreFlags.h"
@@ -224,6 +225,8 @@ class TC_GAME_API Object
         DynamicObject const* ToDynObject() const { if (IsDynObject()) return reinterpret_cast<DynamicObject const*>(this); else return nullptr; }
 
         virtual std::string GetDebugInfo() const;
+
+        DataMap CustomData;
 
         Trinity::unique_weak_ptr<Object> GetWeakPtr() const { return m_scriptRef; }
 
