@@ -133,6 +133,7 @@ public:
             "bot_" + charName,  // account name – display only
             nullptr,            // no real network socket
             SEC_PLAYER,
+            2,                  // expansion
             0,                  // no mute
             DEFAULT_LOCALE,
             0,                  // no recruiter
