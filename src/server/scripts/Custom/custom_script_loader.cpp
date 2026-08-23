@@ -21,9 +21,10 @@
 // void Add${NameOfDirectory}Scripts()
 
 void AddSC_AutoBalance();
+void AddSolocraftScripts();
 
 void AddCustomScripts()
 {
-    // VAS AutoBalance
     AddSC_AutoBalance();
+    AddSolocraftScripts();
 }
