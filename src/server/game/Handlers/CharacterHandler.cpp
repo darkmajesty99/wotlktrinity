@@ -717,6 +717,59 @@ void WorldSession::HandlePlayerLoginOpcode(WorldPacket& recvData)
     });
 }
 
+// PoC bot bootstrap: spawn an existing character into the world without a real
+// client. Reuses the internal LoginQueryHolder so the full character load path
+// runs unchanged.  Only valid on a session that was created with a null socket
+// and has had SetBotSession() called on it.
+void WorldSession::SpawnBotPlayerAsync(ObjectGuid guid)
+{
+    if (!m_isBotSession)
+    {
+        TC_LOG_ERROR("bot", "BotSession: SpawnBotPlayerAsync called on a non-bot session (account %u). Ignoring.", GetAccountId());
+        return;
+    }
+
+    if (GetPlayer())
+    {
+        TC_LOG_ERROR("bot", "BotSession: SpawnBotPlayerAsync called but a player is already attached (account %u).", GetAccountId());
+        return;
+    }
+
+    uint32 accountId = sCharacterCache->GetCharacterAccountIdByGuid(guid);
+    if (accountId == 0)
+    {
+        TC_LOG_ERROR("bot", "BotSession: Character %s not found in character cache.", guid.ToString().c_str());
+        return;
+    }
+
+    if (accountId != GetAccountId())
+    {
+        TC_LOG_ERROR("bot", "BotSession: Character %s belongs to account %u, not to this bot session (account %u).",
+            guid.ToString().c_str(), accountId, GetAccountId());
+        return;
+    }
+
+    TC_LOG_INFO("bot", "BotSession: Starting character load for guid %s (account %u).", guid.ToString().c_str(), GetAccountId());
+
+    m_playerLoading = guid;
+
+    std::shared_ptr<LoginQueryHolder> holder = std::make_shared<LoginQueryHolder>(GetAccountId(), guid);
+    if (!holder->Initialize())
+    {
+        TC_LOG_ERROR("bot", "BotSession: Failed to initialize LoginQueryHolder for guid %s.", guid.ToString().c_str());
+        m_playerLoading.Clear();
+        return;
+    }
+
+    TC_LOG_INFO("bot", "BotSession: DB queries dispatched for guid %s.", guid.ToString().c_str());
+
+    AddQueryHolderCallback(CharacterDatabase.DelayQueryHolder(holder)).AfterComplete(
+        [this](SQLQueryHolderBase const& holder)
+        {
+            HandlePlayerLogin(static_cast<LoginQueryHolder const&>(holder));
+        });
+}
+
 void WorldSession::HandlePlayerLogin(LoginQueryHolder const& holder)
 {
     ObjectGuid playerGuid = holder.GetGuid();
@@ -824,6 +877,12 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder const& holder)
 
     ObjectAccessor::AddObject(pCurrChar);
     //TC_LOG_DEBUG("Player {} added to Map.", pCurrChar->GetName());
+    if (m_isBotSession)
+    {
+        sBotMgr->RegisterBot(pCurrChar);
+        TC_LOG_INFO("bot", "BotSession: Player %s (%s) is now in world (map %u). PoC bootstrap complete.",
+            pCurrChar->GetName().c_str(), pCurrChar->GetGUID().ToString().c_str(), pCurrChar->GetMapId());
+    }
 
     pCurrChar->SendInitialPacketsAfterAddToMap();
 
