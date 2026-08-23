@@ -129,9 +129,9 @@ public:
 
         // Create a socket-less WorldSession for the bot.
         WorldSession* botSession = new WorldSession(
-            accountId,                      // id: Unique account ID (uint32)
-            "bot_" + charName,        // name: Account name (std::string&& rvalue reference)
-            socketPtr,              // sock: Shared pointer to the WorldSocket (std::shared_ptr<WorldSocket>)
+            accountId,              // id: Unique account ID (uint32)
+            "bot_" + charName,      // name: Account name (std::string&& rvalue reference)
+            nullptr,                // sock: Shared pointer to the WorldSocket (std::shared_ptr<WorldSocket>)
             SEC_PLAYER,             // sec: Security/Account type (AccountTypes enum)
             2,                      // expansion: Expansion ID (uint8, e.g., 2 for WotLK)
             0,                      // mute_time: Remaining mute time in seconds (time_t)
