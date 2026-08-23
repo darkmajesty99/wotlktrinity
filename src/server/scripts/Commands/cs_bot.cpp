@@ -128,7 +128,18 @@ public:
             handler->GetNameLink().c_str(), charName.c_str(), guid.ToString().c_str(), accountId);
 
         // Create a socket-less WorldSession for the bot.
-        WorldSession* botSession = new WorldSession();
+        WorldSession* botSession = new WorldSession(
+            accountId,                      // id: Unique account ID (uint32)
+            "bot_" + charName,        // name: Account name (std::string&& rvalue reference)
+            socketPtr,              // sock: Shared pointer to the WorldSocket (std::shared_ptr<WorldSocket>)
+            SEC_PLAYER,             // sec: Security/Account type (AccountTypes enum)
+            2,                      // expansion: Expansion ID (uint8, e.g., 2 for WotLK)
+            0,                      // mute_time: Remaining mute time in seconds (time_t)
+            Minutes(0),             // timezoneOffset: Timezone offset (Minutes duration object)
+            LOCALE_enUS,            // locale: Client language (LocaleConstant enum)
+            0,                      // recruiter: Recruiter account ID (uint32)
+            false                   // isARecruiter: Is this account a recruiter? (bool)
+            );
 
         botSession->SetBotSession();
         botSession->SpawnBotPlayerAsync(guid);
