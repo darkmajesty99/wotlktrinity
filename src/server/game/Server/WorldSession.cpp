@@ -143,6 +143,7 @@ WorldSession::WorldSession(uint32 id, std::string&& name, std::shared_ptr<WorldS
     _RBACData(nullptr),
     expireTime(60000), // 1 min after socket loss, session is deleted
     forceExit(false),
+    m_isBotSession(false),
     m_currentBankerGUID(),
     _timeSyncClockDeltaQueue(std::make_unique<boost::circular_buffer<std::pair<int64, uint32>>>(6)),
     _timeSyncClockDelta(0),
@@ -206,6 +207,10 @@ std::string WorldSession::GetPlayerInfo() const
 /// Send a packet to the client
 void WorldSession::SendPacket(WorldPacket const* packet)
 {
+    // Bot sessions have no real socket; silently discard outgoing packets.
+    if (m_isBotSession)
+        return;
+
     ASSERT(packet->GetOpcode() != NULL_OPCODE);
 
     if (!m_Socket)
@@ -292,7 +297,8 @@ bool WorldSession::Update(uint32 diff, PacketFilter& updater)
     ///- Before we process anything:
     /// If necessary, kick the player because the client didn't send anything for too long
     /// (or they've been idling in character select)
-    if (IsConnectionIdle() && !HasPermission(rbac::RBAC_PERM_IGNORE_IDLE_CONNECTION))
+    // Bot sessions have no socket; skip idle-disconnect logic entirely.
+    if (!m_isBotSession && IsConnectionIdle() && !HasPermission(rbac::RBAC_PERM_IGNORE_IDLE_CONNECTION))
         m_Socket->CloseSocket();
 
     ///- Retrieve packets from the receive queue and call the appropriate handlers
@@ -506,7 +512,8 @@ bool WorldSession::Update(uint32 diff, PacketFilter& updater)
             }
         }
 
-        if (!m_Socket)
+        // Bot sessions have no socket; keep them alive in the session map.
+        if (!m_isBotSession && !m_Socket)
             return false;                                       //Will remove this session from the world session map
     }
 
